@@ -28,7 +28,7 @@ int main() {
 
     scene.addMesh(a);
 
-    auto img = scene.render({100,100});
+    auto img = scene.render({1000,1000});
 
     cv::imshow("Result", img);
     cv::waitKey(0);
