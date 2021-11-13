@@ -7,15 +7,6 @@
 
 #include <array>
 
-struct Vertex
-{
-    double x;
-    double y;
-    double z;
-    //potentially quaternion for rotation
-};
-
-using Edge = std::array<Vertex, 2>;
 
 class Vec3
 {
@@ -24,35 +15,57 @@ public:
     explicit Vec3(const std::array<double, 3>& values);
     std::array<double, 3> values;
     double norm();
+    Vec3 operator+(const Vec3& vec);
+    Vec3 operator-(const Vec3& vec);
+    double dot(const Vec3& vec);
     Vec3 divide(double divider);
+    Vec3 rotateX(double theta);
+    Vec3 rotateY(double theta);
+    Vec3 rotateZ(double theta);
+    [[nodiscard]] double x() const;
+    [[nodiscard]] double y() const;
+    [[nodiscard]] double z() const;
 
+    Vec3 rotate(double alpha, double beta, double theta);
 };
 
-struct Ray
+class Ray
 {
-    Vertex origin{};
+public:
+    Ray(const Vec3& origin, const Vec3& direction, int pixelX, int pixelY);
+    Vec3 origin;
     Vec3 direction;
+    [[nodiscard]] int getPixelX() const;
+    [[nodiscard]] int getPixelY() const;
+
+private:
+    int pixelX;
+
+private:
+    int pixelY;
 };
 
 class Face
 {
 public:
-    Face(Vertex a, Vertex b, Vertex c);
+    Face(Vec3 a, Vec3 b, Vec3 c);
     Vec3 get_normal();
     Vec3 get_normalised_normal();
-    bool intersect_with(Ray r);
-    double intersectLength(Ray r);
+    bool intersect_with(const Ray &r);
+    [[nodiscard]] double intersect_length(const Ray &r) const;
 
 private:
     void update();
 
     // std::array<Edge, 3> edges; //todo make sure it^s needed
-    std::array<Vertex, 3> vertices;
+    std::array<Vec3, 3> vertices;
     double det;
     double a;
     double b;
     double c;
     double d;
+
+    double area;
 };
 
 

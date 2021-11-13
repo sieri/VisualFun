@@ -9,10 +9,12 @@
 
 class Camera {
 public:
-    Camera(Vertex position, double fov);
+    Camera(Vec3 position, double fov);
     Camera();
+    [[nodiscard]] double getFov() const;
+    [[nodiscard]] Vec3 getPosition() const;
 private:
-    Vertex position;
+    Vec3 position;
 
     double fov;
 };

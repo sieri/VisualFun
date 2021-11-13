@@ -10,10 +10,11 @@
 
 class Mesh {
 private:
-    std::vector<Face> faces;
-    Vertex origine;
+    Vec3 origine;
 public:
     explicit Mesh(std::vector<Face>  faces);
+
+    std::vector<Face> faces;
 };
 
 

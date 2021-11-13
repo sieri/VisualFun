@@ -8,13 +8,14 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include "Structures.h"
+#include <opencv2/opencv.hpp>
 
 class Scene {
 
 public:
     explicit Scene(const Camera& camera);
     void addMesh(const Mesh& mesh);
-    void render(std::array<int, 2> res);
+    cv::Mat render(std::array<int, 2> res);
 private:
     Camera camera;
     std::vector<Mesh> meshs;
