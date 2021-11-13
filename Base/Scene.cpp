@@ -18,8 +18,9 @@ void Scene::addMesh(const Mesh& mesh) {
 
 cv::Mat Scene::render(std::array<int, 2> res) {
 
-    cv::Mat img(res[0],res[1],CV_8U);
+    cv::Mat img(res[0],res[1], CV_8U, cv::Scalar(0));
 
+    auto camPos = camera.getPosition();
     //put all the mesh in one
     std::vector<Face> faces;
     for (const auto& m : meshs) {
@@ -27,6 +28,9 @@ cv::Mat Scene::render(std::array<int, 2> res) {
             faces.push_back(f);
         }
     }
+    std::sort(faces.begin(), faces.end(), [camPos](Face a, Face b){
+        return a.get_distance_from_camera(camPos) > b.get_distance_from_camera(camPos);
+    });
 
     // generate rays
     Vec3 base({0,0,-1});
@@ -37,7 +41,7 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         for (int y = 0; y < res[1]; ++y) {
             double PscreenY = 2*((y+0.5)/res[1])-1;
             Vec3 dir({PscreenX, PscreenY,-1.0});
-            rays.emplace_back(camera.getPosition(), dir-camera.getPosition(), x, res[1]-y);
+            rays.emplace_back(camera.getPosition(), dir-camera.getPosition(), x, res[1]-(y+1));
         }
     }
 

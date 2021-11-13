@@ -15,8 +15,8 @@ class Face
 public:
     Face(Vec3 a, Vec3 b, Vec3 c);
     Face(Vec3 a, Vec3 b, Vec3 c, int color);
-    Vec3 get_normal();
-    Vec3 get_normalised_normal();
+    [[nodiscard]] Vec3 get_normal() const;
+
     bool intersect_with(const Ray &r);
     [[nodiscard]] double intersect_length(const Ray &r) const;
 
@@ -29,11 +29,15 @@ private:
     double b;
     double c;
     double d;
-
     double area;
     int color;
+
 public:
     [[nodiscard]] int getColor() const;
+
+    double get_distance_from_camera(Vec3 position);
+
+    [[nodiscard]] Vec3 get_center() const;
 };
 
 

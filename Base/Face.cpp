@@ -17,13 +17,20 @@ Face::Face(Vec3 a, Vec3 b, Vec3 c, int color) {
     this->color = color;
     update();
 }
-Vec3 Face::get_normal() {
+Vec3 Face::get_normal() const{
     return Vec3({a,b,c});
 }
 
-Vec3 Face::get_normalised_normal() {
-    Vec3 normal = get_normal();
-    return normal.divide(normal.norm());
+Vec3 Face::get_center() const{
+    return Vec3({(vertices[0].x()+vertices[1].x()+vertices[2].x())/3,
+                 (vertices[0].y()+vertices[1].y()+vertices[2].y())/3,
+                (vertices[0].z()+vertices[1].z()+vertices[2].z())/3});
+}
+
+double Face::get_distance_from_camera(Vec3 position){
+    auto center = get_center();
+
+    return (center - position).norm();
 }
 
 bool Face::intersect_with(const Ray &r) {
