@@ -3,6 +3,8 @@
 #include "Base/Mesh.h"
 #include "Base/Camera.h"
 #include "Base/Scene.h"
+#include "Base/Vec3.h"
+#include "Base/Ray.h"
 #include <cmath>
 int main() {
 
@@ -22,7 +24,7 @@ int main() {
         Face(Vec3({0.0,1.0,0.5}), Vec3({1.0,0.0,0.0}), Vec3({0.0,0.0,1.0})),
         });
 
-    Camera cam(Vec3({0.0,0.5,-2}), M_PI/2);
+    Camera cam(Vec3({0.0,-0.5,-2}), M_PI/2);
 
     Scene scene(cam);
 

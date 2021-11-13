@@ -3,6 +3,8 @@
 //
 
 #include "Scene.h"
+#include "Vec3.h"
+#include "Ray.h"
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
@@ -43,7 +45,7 @@ cv::Mat Scene::render(std::array<int, 2> res) {
 
         auto it = std::find_if(faces.begin(), faces.end(), [&](Face face){
             return face.intersect_with(r);
-        });
+        }); //todo find the closest
 
         if (it != faces.end())
         {

@@ -3,6 +3,7 @@
 //
 
 #include "Mesh.h"
+#include "Vec3.h"
 
 #include <utility>
 

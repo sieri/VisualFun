@@ -6,7 +6,8 @@
 #define VISUALFUN_MESH_H
 
 #include <vector>
-#include "Structures.h"
+#include "Face.h"
+#include "Vec3.h"
 
 class Mesh {
 private:

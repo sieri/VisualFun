@@ -7,7 +7,7 @@
 
 #include "Camera.h"
 #include "Mesh.h"
-#include "Structures.h"
+#include "Face.h"
 #include <opencv2/opencv.hpp>
 
 class Scene {

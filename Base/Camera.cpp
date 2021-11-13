@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include "Camera.h"
+#include "Vec3.h"
 
 Camera::Camera(): position({0.0,0.0,0.0}),fov(M_PI/2)
 {

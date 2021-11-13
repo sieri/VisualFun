@@ -5,7 +5,8 @@
 #ifndef VISUALFUN_CAMERA_H
 #define VISUALFUN_CAMERA_H
 
-#include "Structures.h"
+#include "Face.h"
+#include "Vec3.h"
 
 class Camera {
 public:
