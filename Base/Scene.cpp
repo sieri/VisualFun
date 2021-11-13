@@ -34,8 +34,8 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         double PscreenX = 2*((x+0.5)/res[0])-1;
         for (int y = 0; y < res[1]; ++y) {
             double PscreenY = 2*((y+0.5)/res[1])-1;
-            Vec3 dir({PscreenX,PscreenY,-1.0});
-            rays.emplace_back(camera.getPosition(), dir-camera.getPosition(), x, y);
+            Vec3 dir({PscreenX, PscreenY,-1.0});
+            rays.emplace_back(camera.getPosition(), dir-camera.getPosition(), x, res[1]-y);
         }
     }
 
@@ -47,12 +47,12 @@ cv::Mat Scene::render(std::array<int, 2> res) {
 
         if (it != faces.end())
         {
-            auto  &color = img.at<uchar>(r.getPixelX(), r.getPixelY());
+            auto  &color = img.at<uchar>(r.getPixelY(), r.getPixelX());
             color = 255;
         }
         else
         {
-            auto  &color = img.at<uchar>(r.getPixelX(), r.getPixelY());
+            auto  &color = img.at<uchar>(r.getPixelY(), r.getPixelX());
             color = 0;
         }
     }
