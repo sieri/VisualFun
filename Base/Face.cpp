@@ -9,9 +9,14 @@
 
 Face::Face(Vec3 a, Vec3 b, Vec3 c) {
     vertices = {a,b,c};
+    this->color = 255;
     update();
 }
-
+Face::Face(Vec3 a, Vec3 b, Vec3 c, int color) {
+    vertices = {a,b,c};
+    this->color = color;
+    update();
+}
 Vec3 Face::get_normal() {
     return Vec3({a,b,c});
 }
@@ -55,4 +60,10 @@ void Face::update() {
 
     area = triangleArea(A,B,C);
 }
+
+int Face::getColor() const {
+    return color;
+}
+
+
 

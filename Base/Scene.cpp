@@ -50,7 +50,7 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         if (it != faces.end())
         {
             auto  &color = img.at<uchar>(r.getPixelY(), r.getPixelX());
-            color = 255;
+            color = (*it).getColor();
         }
         else
         {

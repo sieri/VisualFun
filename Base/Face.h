@@ -14,6 +14,7 @@ class Face
 {
 public:
     Face(Vec3 a, Vec3 b, Vec3 c);
+    Face(Vec3 a, Vec3 b, Vec3 c, int color);
     Vec3 get_normal();
     Vec3 get_normalised_normal();
     bool intersect_with(const Ray &r);
@@ -22,7 +23,6 @@ public:
 private:
     void update();
 
-    // std::array<Edge, 3> edges; //todo make sure it^s needed
     std::array<Vec3, 3> vertices;
     double det;
     double a;
@@ -31,6 +31,9 @@ private:
     double d;
 
     double area;
+    int color;
+public:
+    [[nodiscard]] int getColor() const;
 };
 
 
