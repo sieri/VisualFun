@@ -6,7 +6,10 @@
 #include "Base/Vec3.h"
 #include "Base/Ray.h"
 #include <cmath>
+#include <thread>
 int main() {
+
+
 
     {
         Face f(Vec3({0.0,0,0}),
@@ -30,8 +33,10 @@ int main() {
 
     scene.addMesh(a);
 
-    auto img = scene.render({1000,1000});
+    auto img = scene.render({10000,10000});
     cv::imshow("Result", img);
     cv::waitKey(0);
+
     return 0;
+
 }

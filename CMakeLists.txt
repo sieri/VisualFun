@@ -6,7 +6,12 @@ find_package(OpenCV REQUIRED )
 find_package(glm REQUIRED )
 
 
+find_package(Threads REQUIRED)
+if(THREADS_HAVE_PTHREAD_ARG)
+    target_compile_options(VisualFun PUBLIC "-pthread")
+endif()
+
 
 add_executable(VisualFun main.cpp Base/Mesh.cpp Base/Mesh.h Base/Face.h Base/Vec3.cpp Base/Vec3.h Base/Ray.cpp Base/Ray.h Base/Face.cpp Base/Camera.cpp Base/Camera.h Base/Scene.cpp Base/Scene.h Utils/BasicGeometry.cpp Utils/BasicGeometry.h)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-target_link_libraries(VisualFun ${OpenCV_LIBS} )
+target_link_libraries(VisualFun ${OpenCV_LIBS}  ${CMAKE_THREAD_LIBS_INIT})
