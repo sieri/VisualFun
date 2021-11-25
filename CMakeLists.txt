@@ -12,6 +12,6 @@ if(THREADS_HAVE_PTHREAD_ARG)
 endif()
 
 
-add_executable(VisualFun main.cpp Base/Mesh.cpp Base/Mesh.h Base/Face.h Base/Vec3.cpp Base/Vec3.h Base/Ray.cpp Base/Ray.h Base/Face.cpp Base/Camera.cpp Base/Camera.h Base/Scene.cpp Base/Scene.h Utils/BasicGeometry.cpp Utils/BasicGeometry.h)
+add_executable(VisualFun main.cpp Scene/Mesh.cpp Scene/Mesh.h Base/Face.h Base/Vec3.cpp Base/Vec3.h Base/Ray.cpp Base/Ray.h Base/Face.cpp Scene/Camera.cpp Scene/Camera.h Scene/Scene.cpp Scene/Scene.h Utils/BasicGeometry.cpp Utils/BasicGeometry.h FileLoader/STLLoader.cpp FileLoader/STLLoader.h Base/Matrix.cpp Base/Matrix.h)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 target_link_libraries(VisualFun ${OpenCV_LIBS}  ${CMAKE_THREAD_LIBS_INIT})

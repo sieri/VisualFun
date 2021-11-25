@@ -35,6 +35,12 @@ double Face::get_distance_from_camera(Vec3 position){
 
 bool Face::intersect_with(const Ray &r) {
     double k = this->intersect_length(r);
+
+    if (k < 0)
+    {
+        return false;
+    }
+
     Vec3 point({
        r.origin.x()+(k*r.direction.x()),
        r.origin.y()+(k*r.direction.y()),
@@ -52,7 +58,7 @@ bool Face::intersect_with(const Ray &r) {
 }
 
 double Face::intersect_length(const Ray &r) const {
-    return - (r.origin.x()*a+r.origin.y()*b+r.origin.z()*c+d)/(a* r.direction.values[0] +b*r.direction.values[1]+c*r.direction.values[2]);
+    return - (r.origin.x()*a+r.origin.y()*b+r.origin.z()*c+d)/(a* r.direction.x()+b*r.direction.y()+c*r.direction.z());
 }
 
 void Face::update() {

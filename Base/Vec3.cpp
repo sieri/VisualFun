@@ -107,3 +107,7 @@ Vec3 Vec3::rotate(double alpha, double beta, double theta)
     });
 
 }
+
+const std::array<double, 3> &Vec3::getValues() const {
+    return values;
+}

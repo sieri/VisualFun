@@ -5,12 +5,14 @@
 #ifndef VISUALFUN_VEC3_H
 #define VISUALFUN_VEC3_H
 
+#include <iostream>
+
 class Vec3
 {
 public:
     Vec3();
     explicit Vec3(const std::array<double, 3>& values);
-    std::array<double, 3> values;
+
     double norm();
     Vec3 operator+(const Vec3& vec);
     Vec3 operator-(const Vec3& vec);
@@ -24,6 +26,17 @@ public:
     [[nodiscard]] double z() const;
 
     Vec3 rotate(double alpha, double beta, double theta);
+
+    friend std::ostream& operator<<(std::ostream& os, Vec3 const & tc) {
+        return os << "Vec:" << tc.x() << " : " << tc.y() << " : " <<tc.z() << std::endl;
+    }
+
+    const std::array<double, 3> &getValues() const;
+
+private:
+    std::array<double, 3> values;
+
+
 };
 
 #include <array>

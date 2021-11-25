@@ -3,12 +3,13 @@
 //
 
 #include "Scene.h"
-#include "Vec3.h"
-#include "Ray.h"
+#include "../Base/Vec3.h"
+#include "../Base/Ray.h"
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <thread>
+#include <cmath>
 
 Scene::Scene(const Camera& camera) : camera(camera){
 
@@ -25,7 +26,8 @@ cv::Mat Scene::render(std::array<int, 2> res) {
 
 
 
-    auto camPos = camera.getPosition();
+    auto camPos = camera.getCameraToWorld().multiply(camera.getPosition());
+
     //put all the mesh in one
     std::vector<Face> faces;
     for (const auto& m : meshs) {
@@ -37,23 +39,20 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         return a.get_distance_from_camera(camPos) > b.get_distance_from_camera(camPos);
     });
 
-    // generate rays
-    Vec3 base({0,0,-1});
-
-
-
-    auto rayTrace = [&faces, &img, &camPos](int x_start, int x_stop, int y_start, int y_stop, int width, int height
-            ) {
+    auto fov = this->camera.getFov();
+    //raytracing lambda
+    auto rayTrace = [&](int x_start, int x_stop, int y_start, int y_stop, int width, int height) {
         std::vector<Ray> rays;
 
         for (int x = x_start; x < x_stop; ++x) {
-            double pScreenX = 2 * ((x + 0.5) / width) - 1;
-            for (int y = y_start; y < y_stop; ++y) {
-                double pScreenY = 2 * ((y + 0.5) / width) - 1;
-                Vec3 dir({pScreenX, pScreenY, -1.0});
-                rays.emplace_back(camPos, dir-camPos, x, height-(y+1));
-            }
 
+            double pScreenX = (2 * ((x + 0.5) / width) - 1)* tan(fov/2);
+            for (int y = y_start; y < y_stop; ++y) {
+                double pScreenY = (1 - 2 * ((y + 0.5) / width)) * tan(fov/2);
+                Vec3 dir({pScreenX, pScreenY, 1.0});
+                dir = this->camera.getCameraToWorld().multiply(dir);
+                rays.emplace_back(camPos, dir, x, y);
+            }
         }
 
         for (const auto& r : rays) {
@@ -78,11 +77,13 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         return 0;
     };
 
+    //generate threads of raytracing, once per line
     std::vector<std::thread> threads;
     for (int i = 0; i < res[0]; ++i) {
         threads.emplace_back(rayTrace, i, i+1, 0, res[1], res[0], res[1]);
     }
 
+    //wait for the tread to finish
     for (auto &t : threads) {
         t.join();
     }
