@@ -54,7 +54,7 @@ bool Face::intersect_with(const Ray &r) {
     double area2 = triangleArea(A,C,point);
     double area3 = triangleArea(B,C,point);
 
-    return abs(area-(area1+area2+area3)) < 0.00001;
+    return abs(area-(area1+area2+area3)) < 0.0000001;
 }
 
 double Face::intersect_length(const Ray &r) const {

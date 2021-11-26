@@ -33,7 +33,10 @@ int main() {
 
     scene.addMesh(a);
 
-    auto img = scene.render({100,100});
+    auto img = scene.render({900,900});
+
+    cv::Mat out;
+   // cv::blur(img,out,{2,2});
     cv::imshow("Result", img);
     cv::waitKey(0);
 
