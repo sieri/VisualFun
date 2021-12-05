@@ -12,3 +12,4 @@ double triangleArea(Vec3 a, Vec3 b, Vec3 c)
     auto dot_prod = ab.dot(ac);
     return sqrt(ab_norm*ab_norm*ac_norm*ac_norm-dot_prod*dot_prod)/2;
 }
+

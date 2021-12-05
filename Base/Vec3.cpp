@@ -2,12 +2,10 @@
 // Created by sieri on 13/11/2021.
 //
 
-#include <iostream>
-#include "../Utils/BasicGeometry.h"
-#include <yaml.h>
+
 #include <cmath>
-#include "Face.h"
 #include "Vec3.h"
+
 
 Vec3::Vec3(const std::array<double, 3>& values):values(values){
 
@@ -86,7 +84,7 @@ Vec3 Vec3::rotateZ(double theta) {
         z()} );
 }
 
-Vec3 Vec3::rotate(double alpha, double beta, double theta)
+Vec3 Vec3::rotate(double alpha, double beta, double theta) const
 {
     double m11 = cos(alpha)*cos(beta);
     double m12 = cos(alpha)*sin(beta)*sin(theta)-sin(alpha)*cos(theta);
@@ -110,4 +108,10 @@ Vec3 Vec3::rotate(double alpha, double beta, double theta)
 
 const std::array<double, 3> &Vec3::getValues() const {
     return values;
+}
+
+Vec3 Vec3::operator*(const Vec3 &vec) const {
+    return Vec3({this->y()*vec.z() - this->z()*vec.y(),
+                 this->z()*vec.x() - this->x()*vec.z(),
+                this->x()*vec.y() - this->y()*vec.x()});
 }

@@ -10,5 +10,4 @@
 
 double triangleArea(Vec3 a, Vec3 b, Vec3 c);
 
-
 #endif //VISUALFUN_BASICGEOMETRY_H

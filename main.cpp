@@ -37,8 +37,7 @@ int main() {
 
     cv::Mat out;
    // cv::blur(img,out,{2,2});
-    cv::imshow("Result", img);
-    cv::waitKey(0);
+    cv::imwrite("Result.jpg", img);
 
     return 0;
 

@@ -35,7 +35,7 @@ private:
 public:
     [[nodiscard]] int getColor() const;
 
-    double get_distance_from_camera(Vec3 position);
+    double get_distance_from_camera(Vec3 position) const;
 
     [[nodiscard]] Vec3 get_center() const;
 };

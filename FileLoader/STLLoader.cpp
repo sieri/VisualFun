@@ -45,7 +45,7 @@ Mesh STLLoader::read() {
         index+=12;
         Vec3 vertex3(getVertex(index));
         faces.emplace_back(vertex1,vertex2,vertex3);
-        std::cout << vertex1 << vertex2 << vertex1 << std::endl;
+
     }
     delete data;
     return Mesh(faces);

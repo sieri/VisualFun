@@ -27,7 +27,7 @@ Vec3 Face::get_center() const{
                 (vertices[0].z()+vertices[1].z()+vertices[2].z())/3});
 }
 
-double Face::get_distance_from_camera(Vec3 position){
+double Face::get_distance_from_camera(Vec3 position) const{
     auto center = get_center();
 
     return (center - position).norm();

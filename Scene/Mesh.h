@@ -11,7 +11,7 @@
 
 class Mesh {
 private:
-    Vec3 origine;
+    Vec3 origin;
 public:
     explicit Mesh(std::vector<Face>  faces);
 

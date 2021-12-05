@@ -7,6 +7,6 @@
 
 #include <utility>
 
-Mesh::Mesh(std::vector<Face> faces):faces(std::move(faces)), origine({0,0,0}){
+Mesh::Mesh(std::vector<Face> faces):origin({0,0,0}), faces(std::move(faces)){
 
 }

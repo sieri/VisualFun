@@ -6,6 +6,7 @@
 #define VISUALFUN_VEC3_H
 
 #include <iostream>
+#include <array>
 
 class Vec3
 {
@@ -16,6 +17,7 @@ public:
     double norm();
     Vec3 operator+(const Vec3& vec);
     Vec3 operator-(const Vec3& vec);
+    Vec3 operator*(const Vec3& vec) const;
     double dot(const Vec3& vec);
     Vec3 divide(double divider);
     Vec3 rotateX(double theta);
@@ -25,7 +27,7 @@ public:
     [[nodiscard]] double y() const;
     [[nodiscard]] double z() const;
 
-    Vec3 rotate(double alpha, double beta, double theta);
+    Vec3 rotate(double alpha, double beta, double theta) const;
 
     friend std::ostream& operator<<(std::ostream& os, Vec3 const & tc) {
         return os << "Vec:" << tc.x() << " : " << tc.y() << " : " <<tc.z() << std::endl;
