@@ -12,16 +12,20 @@ Vec3::Vec3(const std::array<double, 3>& values):values(values){
 
 }
 
-double Vec3::norm() {
+Vec3::Vec3() : values({ 0, 0, 0 }) {
+
+}
+
+double Vec3::norm() const{
     return sqrt(values[0] * values[0]+ values[1] * values[1] +values[2]*values[2]);
 }
 
-Vec3 Vec3::normalize()
+Vec3 Vec3::normalize() const
 {
-    return this->divide(this->norm());
+    return divide(this->norm());
 }
 
-Vec3 Vec3::divide(double divider) {
+Vec3 Vec3::divide(double divider) const{
     Vec3 result;
     for (int i = 0; i < 3; ++i) {
         result.values[i] = this->values[i]/divider;
@@ -29,11 +33,9 @@ Vec3 Vec3::divide(double divider) {
     return result;
 }
 
-Vec3::Vec3() : values({0, 0, 0}){
 
-}
 
-Vec3 Vec3::operator+(const Vec3 &vec) {
+Vec3 Vec3::operator+(const Vec3 &vec) const{
     Vec3 result;
     for (int i = 0; i < 3; ++i) {
         result.values[i] = this->values[i]+vec.values[i];
@@ -53,7 +55,7 @@ double Vec3::z() const {
     return values[2];
 }
 
-Vec3 Vec3::operator-(const Vec3 &vec) {
+Vec3 Vec3::operator-(const Vec3 &vec) const {
     Vec3 result;
     for (int i = 0; i < 3; ++i) {
         result.values[i] = this->values[i]-vec.values[i];
@@ -61,7 +63,7 @@ Vec3 Vec3::operator-(const Vec3 &vec) {
     return result;
 }
 
-double Vec3::dot(const Vec3 &vec) {
+double Vec3::dot(const Vec3 &vec) const {
     double result=0;
     for (int i = 0; i < 3; ++i) {
         result += this->values[i]*vec.values[i];
@@ -69,21 +71,21 @@ double Vec3::dot(const Vec3 &vec) {
     return result;
 }
 
-Vec3 Vec3::rotateX(double theta) {
+Vec3 Vec3::rotateX(double theta) const{
     return Vec3({
         x(),
         y()* cos(theta)- z()*sin(theta),
         y()* sin(theta)+ z()*cos(theta)} );
 }
 
-Vec3 Vec3::rotateY(double theta) {
+Vec3 Vec3::rotateY(double theta) const{
     return Vec3({
         x()* cos(theta)+ z()*sin(theta),
         y(),
         -x()* sin(theta)+ z()*cos(theta)});
 }
 
-Vec3 Vec3::rotateZ(double theta) {
+Vec3 Vec3::rotateZ(double theta) const{
     return Vec3({
         x()* cos(theta)- y()*sin(theta),
         x()* sin(theta)+ y()*cos(theta),

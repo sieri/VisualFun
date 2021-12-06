@@ -14,16 +14,16 @@ public:
     Vec3();
     explicit Vec3(const std::array<double, 3>& values);
 
-    double norm();
-    Vec3 normalize();
-    Vec3 operator+(const Vec3& vec);
-    Vec3 operator-(const Vec3& vec);
+    double norm() const;
+    Vec3 normalize() const;
+    Vec3 operator+(const Vec3& vec) const;
+    Vec3 operator-(const Vec3& vec) const;
     Vec3 operator*(const Vec3& vec) const;
-    double dot(const Vec3& vec);
-    Vec3 divide(double divider);
-    Vec3 rotateX(double theta);
-    Vec3 rotateY(double theta);
-    Vec3 rotateZ(double theta);
+    double dot(const Vec3& vec) const;
+    Vec3 divide(double divider) const;
+    Vec3 rotateX(double theta) const;
+    Vec3 rotateY(double theta) const;
+    Vec3 rotateZ(double theta) const;
     [[nodiscard]] double x() const;
     [[nodiscard]] double y() const;
     [[nodiscard]] double z() const;

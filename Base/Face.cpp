@@ -62,8 +62,7 @@ double Face::intersect_length(const Ray &r) const {
 
 double Face::intersect_angle(const Ray& r) const
 {
-    auto ray = r;
-    auto dot = ray.direction.normalize().dot(this->get_normal().normalize());
+    auto dot = r.direction.normalize().dot(this->get_normal().normalize());
     return acos(dot);
 }
 
