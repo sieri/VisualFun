@@ -3,7 +3,6 @@
 //
 #include "Face.h"
 #include <cmath>
-#include <yaml.h>
 #include "../Utils/BasicGeometry.h"
 #include <iostream>
 
@@ -59,6 +58,13 @@ bool Face::intersect_with(const Ray &r) {
 
 double Face::intersect_length(const Ray &r) const {
     return - (r.origin.x()*a+r.origin.y()*b+r.origin.z()*c+d)/(a* r.direction.x()+b*r.direction.y()+c*r.direction.z());
+}
+
+double Face::intersect_angle(const Ray& r) const
+{
+    auto ray = r;
+    auto dot = ray.direction.normalize().dot(this->get_normal().normalize());
+    return acos(dot);
 }
 
 void Face::update() {

@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "../Utils/BasicGeometry.h"
-#include <yaml.h>
 #include <cmath>
 #include "Face.h"
 #include "Ray.h"

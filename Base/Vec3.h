@@ -15,6 +15,7 @@ public:
     explicit Vec3(const std::array<double, 3>& values);
 
     double norm();
+    Vec3 normalize();
     Vec3 operator+(const Vec3& vec);
     Vec3 operator-(const Vec3& vec);
     Vec3 operator*(const Vec3& vec) const;

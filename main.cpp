@@ -5,14 +5,14 @@
 #include "Scene/Scene.h"
 #include "Base/Vec3.h"
 #include "FileLoader/STLLoader.h"
-#include <cmath>
+#include <math.h>
 #include <thread>
 int main() {
 
 
 
 
-    std::string filename = "/home/sieri/Desktop/Utah_teapot_(solid)2.stl";
+    std::string filename = "C:\\Users\\sieri\\Desktop\\Utah_teapot_(solid)2.stl";
     STLLoader loader(filename);
 
     auto a = loader.read();
@@ -20,13 +20,13 @@ int main() {
 
 
 
-   /*Mesh a({
+    /*Mesh a({
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,0.0,1.0}), Vec3({1.0,0.0,0.0}),128),
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,1.0,0.5}), Vec3({0.0,0.0,1.0}),255),
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,1.0,0.5}), Vec3({0.0,0.0,1.0}),150),
         Face(Vec3({0.0,1.0,0.5}), Vec3({1.0,0.0,0.0}), Vec3({0.0,0.0,1.0}),50),
         });
-*/
+     */   
     Camera cam(Vec3({0.0,4,-10}), M_PI/2);
 
     Scene scene(cam);
@@ -38,6 +38,8 @@ int main() {
     cv::Mat out;
    // cv::blur(img,out,{2,2});
     cv::imwrite("Result.jpg", img);
+    cv::imshow("Result", img);
+    cv::waitKey(0);
 
     return 0;
 

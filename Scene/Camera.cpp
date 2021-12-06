@@ -2,7 +2,7 @@
 // Created by sieri on 04/11/2021.
 //
 
-#include <cmath>
+#include <math.h>
 #include "Camera.h"
 #include "../Base/Vec3.h"
 

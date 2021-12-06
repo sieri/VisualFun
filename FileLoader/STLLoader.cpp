@@ -21,6 +21,12 @@ Mesh STLLoader::read() {
     std::ifstream file;
     file.open(fileName, std::ios::binary);
 
+    if (!file.is_open())
+    {
+        std::cerr << "File not available" << std::endl;
+        return Mesh({});
+    }
+
     file.seekg(0, std::ios::end);
     auto fileSize = file.tellg();
     file.seekg(0, std::ios::beg);

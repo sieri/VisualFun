@@ -6,8 +6,7 @@
 #include "../Base/Vec3.h"
 #include "../Base/Ray.h"
 #include <algorithm>
-#include <glm/glm.hpp>
-#include <glm/gtx/rotate_vector.hpp>
+#include <thread>
 #include <thread>
 #include <cmath>
 
@@ -36,14 +35,16 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         }
     }
     std::sort(faces.begin(), faces.end(), [camPos](Face a, Face b){
-        return a.get_distance_from_camera(camPos) > b.get_distance_from_camera(camPos);
+        return a.get_distance_from_camera(camPos) < b.get_distance_from_camera(camPos);
     });
 
     auto fov = this->camera.getFov();
+
+
     //raytracing lambda
     auto rayTrace = [&](int x_start, int x_stop, int y_start, int y_stop, int width, int height) {
         std::vector<Ray> rays;
-        //x:45 y:69
+
         for (int x = x_start; x < x_stop; ++x) {
 
             double pScreenX = (2 * ((x + 0.5) / width) - 1)* tan(fov/2);
@@ -65,7 +66,7 @@ cv::Mat Scene::render(std::array<int, 2> res) {
             {
                 auto  &color = img.at<uchar>(r.getPixelY(), r.getPixelX());
 
-                color = (*it).getColor();
+                color = (*it).getColor() * sin((*it).intersect_angle(r));
             }
             else
             {
@@ -77,12 +78,23 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         return 0;
     };
 
+    //get the number of processors
+    const auto processor_count = std::thread::hardware_concurrency();
+
+    std::cout << processor_count << std::endl;
+
     //generate threads of raytracing, once per line
     std::vector<std::thread> threads;
-    for (int i = 0; i < res[0]; ++i) {
-        threads.emplace_back(rayTrace, i, i+1, 0, res[1], res[0], res[1]);
+    
+    int line_per_thread = res[0] / processor_count;
+
+    std::cout << line_per_thread << std::endl;
+
+    for (int i = 0; i < processor_count-1; ++i) {
+        threads.emplace_back(rayTrace, line_per_thread*i, line_per_thread*i+line_per_thread, 0, res[1], res[0], res[1]);
     }
 
+    threads.emplace_back(rayTrace, line_per_thread* (processor_count - 1), res[0], 0, res[1], res[0], res[1]);
 
     //wait for the tread to finish
     for (auto &t : threads) {

@@ -19,7 +19,7 @@ public:
 
     bool intersect_with(const Ray &r);
     [[nodiscard]] double intersect_length(const Ray &r) const;
-
+    [[nodiscard]] double intersect_angle(const Ray &r) const;
 private:
     void update();
 

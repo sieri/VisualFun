@@ -4,6 +4,7 @@
 
 
 #include <cmath>
+#include "Face.h"
 #include "Vec3.h"
 
 
@@ -13,6 +14,11 @@ Vec3::Vec3(const std::array<double, 3>& values):values(values){
 
 double Vec3::norm() {
     return sqrt(values[0] * values[0]+ values[1] * values[1] +values[2]*values[2]);
+}
+
+Vec3 Vec3::normalize()
+{
+    return this->divide(this->norm());
 }
 
 Vec3 Vec3::divide(double divider) {
