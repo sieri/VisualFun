@@ -10,30 +10,28 @@
 #include <filesystem>
 
 int main() {
-    std::cout << std::filesystem::current_path().string() << std::endl;
-    auto skybox1 = cv::imread(std::filesystem::current_path().string() + "/imgs/skybox1.jpg");
-    cv::imshow("windows", skybox1);
-    cv::waitKey(0);
-    std::cout << skybox1.channels() << std::endl;
-    auto color = skybox1.at<cv::Vec3d>(10, 10);
 
 
-    //std::string filename = "C:\\Users\\sieri\\Desktop\\Utah_teapot_(solid)2.stl";
-    std::string filename = "/home/sieri/Desktop/Utah_teapot_(solid)2.stl";
+
+
+    std::string filename = "C:\\Users\\sieri\\Desktop\\Utah_teapot_(solid)2.stl";
+  //  std::string filename = "/home/sieri/Desktop/Utah_teapot_(solid)2.stl";
     STLLoader loader(filename);
 
-    auto a = loader.read();
+   // auto a = loader.read();
 
 
 
 
-    /*Mesh a({
+    Mesh a({
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,0.0,1.0}), Vec3({1.0,0.0,0.0}),128),
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,1.0,0.5}), Vec3({0.0,0.0,1.0}),255),
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,1.0,0.5}), Vec3({0.0,0.0,1.0}),150),
         Face(Vec3({0.0,1.0,0.5}), Vec3({1.0,0.0,0.0}), Vec3({0.0,0.0,1.0}),50),
         });
-     */   
+      
+
+
     Camera cam(Vec3({0.0,4,-10}), M_PI/2);
 
     Scene scene(cam);

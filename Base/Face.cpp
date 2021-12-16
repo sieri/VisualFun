@@ -23,7 +23,7 @@ Vec3 Face::get_normal() const{
 Vec3 Face::get_center() const{
     return Vec3({(vertices[0].x()+vertices[1].x()+vertices[2].x())/3,
                  (vertices[0].y()+vertices[1].y()+vertices[2].y())/3,
-                (vertices[0].z()+vertices[1].z()+vertices[2].z())/3});
+                 (vertices[0].z()+vertices[1].z()+vertices[2].z())/3});
 }
 
 double Face::get_distance_from_camera(Vec3 position) const{

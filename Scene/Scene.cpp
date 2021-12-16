@@ -8,28 +8,11 @@
 #include <algorithm>
 #include <thread>
 #include <cmath>
+#include <filesystem>
 
 Scene::Scene(const Camera& camera) : camera(camera){
-    skybox = cv::imread("C:\\Users\\sieri\\CLionProjects\\VisualFun2\\imgs\\skybox1.jpg");
 
-    std::cout << skybox.TYPE_MASK << std::endl;
-    uchar depth = skybox.type() & CV_MAT_DEPTH_MASK;
-    uchar chans = 1 + (skybox.type() >> CV_CN_SHIFT);
-    std::string r;
-    switch (depth) {
-    case CV_8U:  r = "8U"; break;
-    case CV_8S:  r = "8S"; break;
-    case CV_16U: r = "16U"; break;
-    case CV_16S: r = "16S"; break;
-    case CV_32S: r = "32S"; break;
-    case CV_32F: r = "32F"; break;
-    case CV_64F: r = "64F"; break;
-    default:     r = "User"; break;
-    }
-
-    r += "C";
-    r += (chans + '0');
-    std::cout << r << std::endl;
+    skybox = cv::imread(std::filesystem::current_path().string() + "/imgs/skybox1.jpg");
 }
 
 void Scene::addMesh(const Mesh& mesh) {
@@ -110,7 +93,8 @@ cv::Mat Scene::render(std::array<int, 2> res) {
 
 
     for (int i = 0; i < processor_count-1; ++i) {
-        threads.emplace_back(rayTrace, line_per_thread*i, line_per_thread*i+line_per_thread, 0, res[1], res[0], res[1]);
+      threads.emplace_back(rayTrace, line_per_thread*i, line_per_thread*i+line_per_thread, 0, res[1], res[0], res[1]);
+      // rayTrace( line_per_thread*i, line_per_thread*i+line_per_thread, 0, res[1], res[0], res[1]);
     }
 
     threads.emplace_back(rayTrace, line_per_thread* (processor_count - 1), res[0], 0, res[1], res[0], res[1]);
@@ -126,10 +110,15 @@ cv::Mat Scene::render(std::array<int, 2> res) {
 cv::Vec3b Scene::skyboxColorAt(Vec3 dir)
 {
 
-    double longitude = dir.x() / M_PI_2;
-    double latitude = dir.y() / M_PI_2;
-    int y = latitude - skybox.rows / 2;
-    int x = 0;
-    auto color = skybox.at<cv::Vec3d>(y, x);
-    return color;
+    double longitude = (atan2(dir.x(), dir.z()) + M_PI);
+    double latitude =acos(dir.y());
+    int x = std::min((int)((longitude/M_PI_2) * skybox.cols), skybox.cols-1);
+    int y = std::min((int)(latitude/(M_PI_2) * skybox.rows), skybox.rows-1);
+  
+    //std::cout << latitude *180/M_PI << " ! " << x << ":" << y << std::endl;
+
+   // std::cout << (longitude /2) * skybox.cols << std::endl;
+
+    return skybox.at<cv::Vec3b>(y, x);
+
 }
