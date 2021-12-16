@@ -7,22 +7,44 @@
 #include "../Base/Ray.h"
 #include <algorithm>
 #include <thread>
-#include <thread>
 #include <cmath>
 
 Scene::Scene(const Camera& camera) : camera(camera){
+    skybox = cv::imread("C:\\Users\\sieri\\CLionProjects\\VisualFun2\\imgs\\skybox1.jpg");
 
+    std::cout << skybox.TYPE_MASK << std::endl;
+    uchar depth = skybox.type() & CV_MAT_DEPTH_MASK;
+    uchar chans = 1 + (skybox.type() >> CV_CN_SHIFT);
+    std::string r;
+    switch (depth) {
+    case CV_8U:  r = "8U"; break;
+    case CV_8S:  r = "8S"; break;
+    case CV_16U: r = "16U"; break;
+    case CV_16S: r = "16S"; break;
+    case CV_32S: r = "32S"; break;
+    case CV_32F: r = "32F"; break;
+    case CV_64F: r = "64F"; break;
+    default:     r = "User"; break;
+    }
+
+    r += "C";
+    r += (chans + '0');
+    std::cout << r << std::endl;
 }
 
 void Scene::addMesh(const Mesh& mesh) {
     meshs.push_back(mesh);
 }
 
+
+
+
+
 cv::Mat Scene::render(std::array<int, 2> res) {
 
-    cv::Mat img(res[0],res[1], CV_8U, cv::Scalar(0));
-
-
+    cv::Mat img(res[0],res[1], CV_8UC3, cv::Scalar(0,0,0));
+    //cv::Mat img;
+    
 
 
     auto camPos = camera.getCameraToWorld().multiply(camera.getPosition());
@@ -64,14 +86,14 @@ cv::Mat Scene::render(std::array<int, 2> res) {
 
             if (it != faces.end())
             {
-                auto  &color = img.at<uchar>(r.getPixelY(), r.getPixelX());
+                auto  &color = img.at<cv::Vec3b>(r.getPixelY(), r.getPixelX());
 
-                color = (*it).getColor() * sin((*it).intersect_angle(r));
+                color = cv::Vec3b(0,0,(*it).getColor() * sin((*it).intersect_angle(r)));
             }
             else
             {
-                auto  &color = img.at<uchar>(r.getPixelY(), r.getPixelX());
-                color = 0;
+                auto& color = img.at<cv::Vec3b>(r.getPixelY(), r.getPixelX()); 
+                color = skyboxColorAt(r.direction);
             }
         }
 
@@ -81,14 +103,11 @@ cv::Mat Scene::render(std::array<int, 2> res) {
     //get the number of processors
     const auto processor_count = std::thread::hardware_concurrency();
 
-    std::cout << processor_count << std::endl;
-
     //generate threads of raytracing, once per line
     std::vector<std::thread> threads;
     
     int line_per_thread = res[0] / processor_count;
 
-    std::cout << line_per_thread << std::endl;
 
     for (int i = 0; i < processor_count-1; ++i) {
         threads.emplace_back(rayTrace, line_per_thread*i, line_per_thread*i+line_per_thread, 0, res[1], res[0], res[1]);
@@ -100,6 +119,17 @@ cv::Mat Scene::render(std::array<int, 2> res) {
     for (auto &t : threads) {
         t.join();
     }
-
+    //cv::Mat dummy;
     return img;
+}
+
+cv::Vec3b Scene::skyboxColorAt(Vec3 dir)
+{
+
+    double longitude = dir.x() / M_PI_2;
+    double latitude = dir.y() / M_PI_2;
+    int y = latitude - skybox.rows / 2;
+    int x = 0;
+    auto color = skybox.at<cv::Vec3d>(10, 10);
+    return color;
 }

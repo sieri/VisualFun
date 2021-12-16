@@ -9,7 +9,11 @@
 #include <thread>
 int main() {
 
-
+    auto skybox1 = cv::imread("C:\\Users\\sieri\\CLionProjects\\VisualFun2\\imgs\\skybox1.jpg");
+    //cv::imshow("windows", skybox1);
+    //cv::waitKey(0);
+    std::cout << skybox1.channels();
+    auto color = skybox1.at<cv::Vec3d>(10, 10);
 
 
     std::string filename = "C:\\Users\\sieri\\Desktop\\Utah_teapot_(solid)2.stl";
