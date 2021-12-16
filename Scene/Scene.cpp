@@ -130,6 +130,6 @@ cv::Vec3b Scene::skyboxColorAt(Vec3 dir)
     double latitude = dir.y() / M_PI_2;
     int y = latitude - skybox.rows / 2;
     int x = 0;
-    auto color = skybox.at<cv::Vec3d>(10, 10);
+    auto color = skybox.at<cv::Vec3d>(y, x);
     return color;
 }

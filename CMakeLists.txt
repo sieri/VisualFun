@@ -23,16 +23,15 @@ else()
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 -mtune=generic -flto")
 endif()
 
-
 find_package(OpenCV REQUIRED )
-
-
 
 find_package(Threads REQUIRED)
 if(THREADS_HAVE_PTHREAD_ARG)
     target_compile_options(VisualFun PUBLIC "-pthread")
 endif()
 
+# move the resources
+file(COPY imgs DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(VisualFun main.cpp Scene/Mesh.cpp Scene/Mesh.h Base/Face.h Base/Vec3.cpp Base/Vec3.h Base/Ray.cpp Base/Ray.h Base/Face.cpp Scene/Camera.cpp Scene/Camera.h Scene/Scene.cpp Scene/Scene.h Utils/BasicGeometry.cpp Utils/BasicGeometry.h FileLoader/STLLoader.cpp FileLoader/STLLoader.h Base/Matrix.cpp Base/Matrix.h)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
