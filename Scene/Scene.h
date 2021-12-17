@@ -16,6 +16,8 @@ public:
     explicit Scene(const Camera& camera);
     void addMesh(const Mesh& mesh);
     cv::Mat render(std::array<int, 2> res);
+
+  
 private:
     cv::Vec3b skyboxColorAt(Vec3 dir);
     Camera camera;

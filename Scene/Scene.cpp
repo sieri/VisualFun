@@ -12,7 +12,7 @@
 
 Scene::Scene(const Camera& camera) : camera(camera){
 
-    skybox = cv::imread(std::filesystem::current_path().string() + "/imgs/skybox1.jpg");
+    skybox = cv::imread(std::filesystem::current_path().string() + "/imgs/skybox3.jpg");
 }
 
 void Scene::addMesh(const Mesh& mesh) {
@@ -62,22 +62,25 @@ cv::Mat Scene::render(std::array<int, 2> res) {
         }
 
         for (const auto& r : rays) {
-
-            auto it = std::find_if(faces.begin(), faces.end(), [&](Face face){
-                return face.intersect_with(r);
-            });
-
-            if (it != faces.end())
+            while (true) // repeat the raycasting until it hit the skybox
             {
-                auto  &color = img.at<cv::Vec3b>(r.getPixelY(), r.getPixelX());
+                auto it = std::find_if(faces.begin(), faces.end(), [&](Face face) {
+                    return face.intersect_with(r);
+                    });
 
-                color = cv::Vec3b(0,0,(*it).getColor() * sin((*it).intersect_angle(r)));
+                if (it != faces.end())
+                {
+                    auto& color = img.at<cv::Vec3b>(r.getPixelY(), r.getPixelX());
+
+                    color = cv::Vec3b(0, 0, (*it).getColor() * sin((*it).intersect_angle(r)));
+                }
+                else
+                {
+                    auto& color = img.at<cv::Vec3b>(r.getPixelY(), r.getPixelX());
+                    color = skyboxColorAt(r.direction);
+                }
             }
-            else
-            {
-                auto& color = img.at<cv::Vec3b>(r.getPixelY(), r.getPixelX()); 
-                color = skyboxColorAt(r.direction);
-            }
+
         }
 
         return 0;
@@ -112,12 +115,12 @@ cv::Vec3b Scene::skyboxColorAt(Vec3 dir)
 
     double longitude = (atan2(dir.x(), dir.z()) + M_PI);
     double latitude =acos(dir.y());
-    int x = std::min((int)((longitude/M_PI_2) * skybox.cols), skybox.cols-1);
-    int y = std::min((int)(latitude/(M_PI_2) * skybox.rows), skybox.rows-1);
+    int x = std::min((int)((longitude/(2*M_PI)) * skybox.cols), skybox.cols - 1);
+    int y = std::min((int)(latitude/(M_PI) * skybox.rows), skybox.rows - 1);
   
     //std::cout << latitude *180/M_PI << " ! " << x << ":" << y << std::endl;
 
-   // std::cout << (longitude /2) * skybox.cols << std::endl;
+   //std::cout << (longitude /2) * skybox.cols << std::endl;
 
     return skybox.at<cv::Vec3b>(y, x);
 

@@ -21,8 +21,6 @@ int main() {
    // auto a = loader.read();
 
 
-
-
     Mesh a({
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,0.0,1.0}), Vec3({1.0,0.0,0.0}),128),
         Face(Vec3({-1.0,0.0,0.0}), Vec3({0.0,1.0,0.5}), Vec3({0.0,0.0,1.0}),255),
@@ -32,7 +30,7 @@ int main() {
       
 
 
-    Camera cam(Vec3({0.0,4,-10}), M_PI/2);
+    Camera cam(Vec3({0.0,4,-10}), M_PI_2);
 
     Scene scene(cam);
 

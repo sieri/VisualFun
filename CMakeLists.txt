@@ -33,6 +33,6 @@ endif()
 # move the resources
 file(COPY imgs DESTINATION ${CMAKE_BINARY_DIR})
 
-add_executable(VisualFun main.cpp Scene/Mesh.cpp Scene/Mesh.h Base/Face.h Base/Vec3.cpp Base/Vec3.h Base/Ray.cpp Base/Ray.h Base/Face.cpp Scene/Camera.cpp Scene/Camera.h Scene/Scene.cpp Scene/Scene.h Utils/BasicGeometry.cpp Utils/BasicGeometry.h FileLoader/STLLoader.cpp FileLoader/STLLoader.h Base/Matrix.cpp Base/Matrix.h)
+add_executable(VisualFun main.cpp Scene/Mesh.cpp Scene/Mesh.h Base/Face.h Base/Vec3.cpp Base/Vec3.h Base/Ray.cpp Base/Ray.h Base/Face.cpp Scene/Camera.cpp Scene/Camera.h Scene/Scene.cpp Scene/Scene.h Utils/BasicGeometry.cpp Utils/BasicGeometry.h FileLoader/STLLoader.cpp FileLoader/STLLoader.h Base/Matrix.cpp Base/Matrix.h "Base/ColorElement.cpp" "Base/ColorElement.h")
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 target_link_libraries(VisualFun ${OpenCV_LIBS}  ${CMAKE_THREAD_LIBS_INIT})
